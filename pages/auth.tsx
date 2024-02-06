@@ -1,5 +1,6 @@
 import Input from "@/components/input";
 import { useCallback, useState } from "react";
+import axios from "axios";
 
 const Auth = () => {
    const [email, setEmail] = useState("");
@@ -12,6 +13,18 @@ const Auth = () => {
       setVariant((currentVariant) =>
          currentVariant === "login" ? "register" : "login"
       );
+   }, []);
+
+   const register = useCallback(async () => {
+      try {
+         await axios.post("/api/register", {
+            email,
+            name,
+            password,
+         });
+      } catch (error) {
+         console.log(error);
+      }
    }, []);
 
    return (
@@ -62,7 +75,7 @@ const Auth = () => {
                   </button>
                   <p className="text-neutral-500 mt-12">
                      {variant === "login"
-                        ? "  First time using Netflix?"
+                        ? "First time using Netflix?"
                         : "Already have an account"}
 
                      <span
